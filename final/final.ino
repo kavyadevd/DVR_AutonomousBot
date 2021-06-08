@@ -66,10 +66,21 @@ int arr[7][7][2] = {  //  dst0  dst1  dst2  dst3  dst4  dst5  dst6
                     {    {4,1},{4,1},{4,1},{4,1},{4,1},{5,0},{6,2}    }, //Source 5
                     {    {5,1},{5,1},{5,1},{5,1},{5,1},{5,1},{6,0}    }  //Source 6
                   };  //  NH,D  NH,D  NH,D  NH,D  NH,D  NH,D  NH,D
+private class Map{
+	private:
+		int Source = 0, Destination = 1, NextHop = 0, Direction = 0, JunctionFlag = 0;
+};
 
-int Source = 0, Destination = 1, NextHop = 0, Direction = 0, JunctionFlag = 0, Speed = 40, LeftSpeed = 40, RightSpeed = 40;
+private class BotControls
+{
+	private:
+		int Rotate180 = 0, Rotate360 = 0;
+		int Speed = 40, LeftSpeed = 40, RightSpeed = 40;
+};
+
+
 int SetPoint = 35, MaxSpeed = 70, lastError1 = 0, lastError2 = 0, tz1 = 0, tz2 = 0, tz3 = 0, tz1_flag = 0, tz2_flag = 0, tz3_flag = 0, i = 0;
-int Rotate180 = 0, Rotate360 = 0, lower_tz1 = 7,lower_tz2 = 15,lower_tz3 = 30,upper_tz1 = 24,upper_tz2 = 45,upper_tz3 = 80;
+int lower_tz1 = 7,lower_tz2 = 15,lower_tz3 = 30,upper_tz1 = 24,upper_tz2 = 45,upper_tz3 = 80;
 float kp1 = 1.2, kd1 = 1.2*50, kp2 = 1.2, kd2 = 1.2*50;
 
 void setup() 
