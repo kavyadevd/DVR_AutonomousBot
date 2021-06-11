@@ -4,7 +4,7 @@
 //hatX = 255 -> RIGHTside
 //dir = HIGH -> Clockwise
 //dir = LOW -> AntiClockwise
-//DVR = next-hop direction
+//arr = next-hop direction
 //directions : 1 = left, 2 = right, 3 = up, 4 = down, 0 = none
 //pneumatic position : tz1 , tz3 , tz2
 
@@ -57,7 +57,7 @@
 
 // access element as [source][Destination][0 for next-hop/ 1 for direction]
 
-int DVR[7][7][2] = {  //  dst0  dst1  dst2  dst3  dst4  dst5  dst6
+int arr[7][7][2] = {  //  dst0  dst1  dst2  dst3  dst4  dst5  dst6
                     {    {0,0},{1,2},{1,2},{1,2},{1,2},{1,2},{1,2}    }, //Source 0
                     {    {0,1},{1,0},{2,4},{2,4},{2,4},{2,4},{2,4}    }, //Source 1
                     {    {1,3},{1,3},{2,0},{3,2},{4,4},{4,4},{4,4}    }, //Source 2
@@ -66,56 +66,22 @@ int DVR[7][7][2] = {  //  dst0  dst1  dst2  dst3  dst4  dst5  dst6
                     {    {4,1},{4,1},{4,1},{4,1},{4,1},{5,0},{6,2}    }, //Source 5
                     {    {5,1},{5,1},{5,1},{5,1},{5,1},{5,1},{6,0}    }  //Source 6
                   };  //  NH,D  NH,D  NH,D  NH,D  NH,D  NH,D  NH,D
-private class Map{
-	private:
-		int Source, Destination, NextHop, Direction, JunctionFlag;
-		int SetPoint, tz1, tz2 , tz3 , tz1_flag , tz2_flag , tz3_flag;
-		int lower_tz1,lower_tz2,lower_tz3 ,upper_tz1 ,upper_tz2,upper_tz3 ;
-	public:
-		Map()
-		{
-		    Source = 0; Destination = 1; NextHop = 0; Direction = 0; JunctionFlag = 0;
-		    SetPoint = 35;
-		    tz1 = 0; tz2 = 0; tz3 = 0; tz1_flag = 0; tz2_flag = 0; tz3_flag = 0; FlashCounter = 0;
-		    lower_tz1 = 7;lower_tz2 = 15;lower_tz3 = 30;upper_tz1 = 24;upper_tz2 = 45;upper_tz3 = 80;
-		}
-	
+class Map{
+  int Source = 0, Destination = 1, NextHop = 0, Direction = 0, JunctionFlag = 0;
+  int lower_tz1 = 7,lower_tz2 = 15,lower_tz3 = 30,upper_tz1 = 24,upper_tz2 = 45,upper_tz3 = 80;
+  int tz1 = 0, tz2 = 0, tz3 = 0, tz1_flag = 0, tz2_flag = 0, tz3_flag = 0, i = 0
+  };
+int Speed = 40, LeftSpeed = 40, RightSpeed = 40;
+int SetPoint = 35, MaxSpeed = 70, lastError1 = 0, lastError2 = 0;
+int Rotate180 = 0, Rotate360 = 0;
+class PID{
+float kp1 = 1.2, kd1 = 1.2*50, kp2 = 1.2, kd2 = 1.2*50;
 };
-
-private class BotControls
-{
-	private:
-		int Rotate180, Rotate360;
-		int Speed, LeftSpeed, RightSpeed;
-		int MaxSpeed,FlashCounter;
-	public:
-	    BotControls()
-	    {
-	        Rotate180 = 0;
-	        Rotate360 = 0;
-	        Speed = 40;
-	        LeftSpeed = 40; 
-	        RightSpeed = 40;
-	        MaxSpeed = 70;
-	    }
-};
-
-private class PID1
-{
-    private:
-        int lastError1,lastError2;
-    public:
-        PID1()
-        {
-            lastError1 = 0; 
-            lastError2 = 0;
-        }
-};
-
 
 void setup() 
 {
   delay(5000);
+  
   //---------Initialize motors----------
     pinMode(left_pwm,OUTPUT);
     pinMode(right_pwm,OUTPUT);
@@ -164,7 +130,6 @@ void setup()
     pinMode(A17,INPUT);
   //-------------------------------------
   
-#pragma endregion Initialization
   Serial.begin(115200);
   Serial1.begin(115200);
   Serial2.begin(115200);
@@ -179,8 +144,6 @@ void setup()
 
 void loop() 
 {
-    Map objMap;
-    BotControls objBotControls;
   if((Source == 2 || Source == 4) && Rotate180 == 1)
   {
     Rotate_180();
@@ -228,8 +191,8 @@ void Move() // this function will move bot from source to Destination
       JunctionFlag++;
     }
       
-    NextHop = DVR[Source][Destination][0];
-    Direction = DVR[Source][Destination][1];
+    NextHop = arr[Source][Destination][0];
+    Direction = arr[Source][Destination][1];
 
     if(Rotate180 == 0 && Rotate360 == 1 && Direction != 0)
     {
@@ -537,14 +500,14 @@ void Throw() // this function will throw the shuttlecock based on source
 
 void flash_flash()
 {
-    while(FlashCounter <= 15)
+    while(i <= 15)
     {
       digitalWrite(flash,LOW);
       delay(50);
       digitalWrite(flash,HIGH);
       delay(50);
-      FlashCounter++;
+      i++;
     }
-    FlashCounter = 0;
+    i = 0;
     digitalWrite(flash,LOW);
   }
