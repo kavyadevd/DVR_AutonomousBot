@@ -10,5 +10,5 @@ Task:
 * After receiving Golden Shuttlecock from Manual Robot, Automatic Robot can move to TZ3 and throw the Golden Shuttlecock at the Golden Ring. If the Golden Shuttlecock goes through the Golden Ring successfully, points will be given. 
 (^ rule source ABU Robocon 2018 rule book)
 
-## The repository is of the code for automatic robot successfully completing the task described above
+### The repository is of the code for automatic robot successfully completing the task described above
 
