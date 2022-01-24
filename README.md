@@ -2,6 +2,12 @@
 Arduino code for autonomus robot navigating through a controlled pre-described path using direct vector routing (for navigation) and PID algorithm (for line following)
 Code uploaded on Teensy development board (ARM Cortex-M7 at 600 MHz processor).
 
+
+
+https://user-images.githubusercontent.com/13993518/150846696-9bbe2c9b-5548-45b2-9662-19cdeda09f50.mp4
+
+
+
 __________________________________
 Task:
 * The robot game field is divided into 3 areas, consisting of Start Zone, Loading Zone, Throwing Zone, Manual Robot Area, and Automatic Robot Area.The throwing Area is placed with * Ring Trees, Normal Rings, Golden Ring, and Golden Cup.Before a game starts, ten (10) Normal Shuttlecocks and five (5) Golden Shuttlecocks are placed inside Loading Zone.
@@ -11,4 +17,6 @@ Task:
 (^ rule source ABU Robocon 2018 rule book)
 
 ### The repository is of the code for automatic robot successfully completing the task described above
+
+
 
